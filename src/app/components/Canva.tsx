@@ -23,6 +23,15 @@ const Canva = () => {
       h: 50,
     }
 
+    //Controls 
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.code === 'Space') {
+        character.y -= 10 // jump up
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
     function loop() {
      if(!context || !canvas) return
 
