@@ -30,6 +30,17 @@ const Canva = () => {
         character.y -= 10 // jump up
     }
 
+    
+   const pipes = new Array(3).fill(0).map((_, i) => ({
+      x: 300 + i * 200,
+      y: Math.random() * (canvas.height - 200 - 50) + 50,
+      width: 50,
+      gap: 200
+    }))
+
+    const pipeSpeed = 2
+
+
     window.addEventListener('keydown', handleKeyDown)
 
     function loop() {
@@ -52,9 +63,28 @@ const Canva = () => {
       //Character
       context.drawImage(bird, character.x, character.y, character.w, character.h)
 
-      //Pipes 
-      context.drawImage(topPipe, 200, 0, 50, 200)
-      context.drawImage(bottomPipe, 200, 350, 50, 200)
+      //Pipes loop
+      pipes.forEach((pipe) => {
+        // move pipe
+        pipe.x -= pipeSpeed
+
+        // draw pipes
+        context.drawImage(topPipe, pipe.x, 0, pipe.width, pipe.y)
+        context.drawImage(
+          bottomPipe,
+          pipe.x,
+          pipe.y + pipe.gap,
+          pipe.width,
+          canvas.height - pipe.y - pipe.gap
+        )
+
+        // Reset when off screen
+        if (pipe.x + pipe.width < 0) {
+          pipe.x = canvas.width
+          pipe.y = Math.random() * (canvas.height - pipe.gap - 50) + 50
+        }
+      })
+
 
       requestAnimationFrame(loop)
       character.y += gravity
