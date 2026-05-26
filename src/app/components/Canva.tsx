@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 
 const Canva = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const gravity = 0.5
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -36,6 +37,7 @@ const Canva = () => {
       )
 
       requestAnimationFrame(loop)
+      character.y += gravity
     }
 
     loop()
