@@ -29,6 +29,8 @@ const Canva = () => {
 
     // Controls 
     function handleKeyDown() {
+      const jump = new Audio('/flappyBird/audios/salto.mp3')
+      jump.play()
       velocity = jumpStrength
     }
 
@@ -66,6 +68,8 @@ const Canva = () => {
     let animationFrameId: number
 
     function resetGame() {
+      const die = new Audio('/flappyBird/audios/muerte.mp3')
+      die.play()
       character.y = 150
       velocity = 0
       score = 0
