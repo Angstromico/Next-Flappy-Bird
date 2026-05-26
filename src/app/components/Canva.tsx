@@ -20,6 +20,7 @@ const Canva = () => {
      const CANVAS_HEIGHT = window.innerHeight
      canvas.width = CANVAS_WIDTH
      canvas.height = CANVAS_HEIGHT
+     canvas.style.height = `${CANVAS_HEIGHT}px`
     }
 
     canvas.width = 300
