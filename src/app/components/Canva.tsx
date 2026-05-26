@@ -19,7 +19,7 @@ const Canva = () => {
     canvas.height = 530
 
     const character = {
-      x: 100,
+      x: 50,
       y: 150,
       w: 50,
       h: 50,
