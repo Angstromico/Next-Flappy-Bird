@@ -13,6 +13,15 @@ const Canva = () => {
     const context = canvas.getContext('2d')
     if (!context) return
 
+    function resize() {
+     if(!canvas) return
+
+     const CANVAS_WIDTH = window.innerWidth
+     const CANVAS_HEIGHT = window.innerHeight
+     canvas.width = CANVAS_WIDTH
+     canvas.height = CANVAS_HEIGHT
+    }
+
     canvas.width = 300
     canvas.height = 530
 
@@ -52,7 +61,9 @@ const Canva = () => {
     const pipeSpeed = 2
     let score = 0
 
+    resize()
     window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('resize', resize)
 
     //Sounds
     const point = new Audio('/flappyBird/audios/punto.mp3')
@@ -191,6 +202,7 @@ const Canva = () => {
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('resize', resize)
       cancelAnimationFrame(animationFrameId)
     }
   }, []) // run once
