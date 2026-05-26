@@ -23,8 +23,7 @@ const Canva = () => {
      canvas.style.height = `${CANVAS_HEIGHT}px`
     }
 
-    canvas.width = 300
-    canvas.height = 530
+    resize()
 
     const gravity = 0.4
     let velocity = 0
@@ -52,7 +51,7 @@ const Canva = () => {
     const pipes = new Array(3).fill(0).map((_, i) => {
       // For initial pipes, we can just randomize within bounds
       return {
-        x: 400 + i * 200,
+        x: canvas.width + i * 200,
         y: Math.random() * (maxY - minY) + minY,
         width: 50,
         gap: gap
@@ -62,7 +61,6 @@ const Canva = () => {
     const pipeSpeed = 2
     let score = 0
 
-    resize()
     window.addEventListener('keydown', handleKeyDown)
     window.addEventListener('resize', resize)
 
@@ -80,13 +78,14 @@ const Canva = () => {
     let animationFrameId: number
 
     function resetGame() {
+      if (!canvas) return
       const die = new Audio('/flappyBird/audios/muerte.mp3')
       die.play()
       character.y = 150
       velocity = 0
       score = 0
       pipes.forEach((pipe, i) => {
-        pipe.x = 400 + i * 200
+        pipe.x = canvas.width + i * 200
         pipe.y = Math.random() * (maxY - minY) + minY
         pipe.gap = gap
         // @ts-expect-error - tracking if bird passed the pipe
