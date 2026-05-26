@@ -12,8 +12,8 @@ const Canva = () => {
     const context = canvas.getContext('2d')
     if (!context) return
 
-    canvas.width = 400
-    canvas.height = 600
+    canvas.width = 300
+    canvas.height = 700
 
     const character = {
       x: 100,
