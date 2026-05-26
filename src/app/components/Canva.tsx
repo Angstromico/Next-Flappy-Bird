@@ -52,6 +52,10 @@ const Canva = () => {
       //Character
       context.drawImage(bird, character.x, character.y, character.w, character.h)
 
+      //Pipes 
+      context.drawImage(topPipe, 200, 0, 50, 200)
+      context.drawImage(bottomPipe, 200, 350, 50, 200)
+
       requestAnimationFrame(loop)
       character.y += gravity
     }
