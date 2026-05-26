@@ -52,6 +52,9 @@ const Canva = () => {
 
     window.addEventListener('keydown', handleKeyDown)
 
+    //Sounds
+    const point = new Audio('/flappyBird/audios/punto.mp3')
+
     // Images loaded once
     const prefix = '/flappyBird/imagenes/'
     const bird = imageGenerator('bird.png', prefix)
@@ -133,6 +136,7 @@ const Canva = () => {
           score++
           // @ts-expect-error - mark this pipe as passed
           pipe.passed = true
+          point.play()
         }
 
         // Reset when off screen
