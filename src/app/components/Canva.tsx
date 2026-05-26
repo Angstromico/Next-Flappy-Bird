@@ -48,6 +48,7 @@ const Canva = () => {
     })
 
     const pipeSpeed = 2
+    let score = 0
 
     window.addEventListener('keydown', handleKeyDown)
 
@@ -60,6 +61,25 @@ const Canva = () => {
     const root = imageGenerator('suelo.png', prefix)
 
     let animationFrameId: number
+
+    function resetGame() {
+      character.y = 150
+      velocity = 0
+      score = 0
+      pipes.forEach((pipe, i) => {
+        pipe.x = 400 + i * 200
+        pipe.y = Math.random() * (maxY - minY) + minY
+        pipe.gap = gap
+        // @ts-expect-error - tracking if bird passed the pipe
+        pipe.passed = false
+      })
+    }
+
+    // Initialize passed state
+    pipes.forEach(pipe => {
+      // @ts-expect-error - mark this pipe as passed
+      pipe.passed = false
+    })
 
     function loop() {
       if (!context || !canvas) return
@@ -92,6 +112,29 @@ const Canva = () => {
           canvas.height - pipe.y - pipe.gap
         )
 
+        // Collision Detection (AABB)
+        const birdRight = character.x + character.w - 10
+        const birdLeft = character.x + 10
+        const birdTop = character.y + 10
+        const birdBottom = character.y + character.h - 10
+
+        const pipeRight = pipe.x + pipe.width
+        const pipeLeft = pipe.x
+
+        if (birdRight > pipeLeft && birdLeft < pipeRight) {
+          if (birdTop < pipe.y || birdBottom > pipe.y + pipe.gap) {
+            resetGame()
+          }
+        }
+
+        // Scoring logic
+        // @ts-expect-error - we track if the bird has passed the pipe to prevent multiple scoring
+        if (!pipe.passed && character.x > pipe.x + pipe.width) {
+          score++
+          // @ts-expect-error - mark this pipe as passed
+          pipe.passed = true
+        }
+
         // Reset when off screen
         if (pipe.x + pipe.width < 0) {
           // Find the rightmost pipe to place the new one after it
@@ -107,13 +150,14 @@ const Canva = () => {
 
           // Adaptive gap (Fix 3)
           pipe.gap = 140 + Math.random() * 40
+          // @ts-expect-error - mark this pipe as not passed
+          pipe.passed = false
         }
       })
 
       // Collision with ground
       if (character.y + character.h >= canvas.height - 50) {
-        character.y = canvas.height - 50 - character.h
-        velocity = 0
+        resetGame()
       }
 
       // Collision with ceiling
@@ -121,6 +165,16 @@ const Canva = () => {
         character.y = 0
         velocity = 0
       }
+
+      //Draw score 
+      context.fillStyle = "white"
+      context.strokeStyle = "black"
+      context.lineWidth = 2
+      context.font = "bold 35px Arial"
+      const scoreText = score.toString()
+      const textWidth = context.measureText(scoreText).width
+      context.fillText(scoreText, canvas.width / 2 - textWidth / 2, 50)
+      context.strokeText(scoreText, canvas.width / 2 - textWidth / 2, 50)
 
       animationFrameId = requestAnimationFrame(loop)
     }
