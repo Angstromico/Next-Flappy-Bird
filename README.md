@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flappy Bird (Next.js)
 
-## Getting Started
+A browser-based Flappy Bird clone built as a Next.js application. The game runs inside a responsive HTML canvas and uses custom game logic for gravity, jumping, moving pipes, and collision detection.
 
-First, run the development server:
+## What this app does
+
+- Renders a full-screen canvas using a client-side React component at `src/app/components/Canva.tsx`
+- Uses `window.requestAnimationFrame` to run the game loop and animate the scene
+- Applies gravity and jump physics to the bird character
+- Generates a repeating set of pipes with gaps that the bird must fly through
+- Tracks score when the bird passes a pipe
+- Plays sound effects for jumping, scoring, and crashing
+- Resets the game automatically on collisions with pipes or the ground
+
+## Project structure
+
+- `src/app/page.tsx` — main Next.js page that mounts the `Canva` game component
+- `src/app/components/Canva.tsx` — game implementation, rendering, and input handling
+- `src/app/utils/functions/index.ts` — helper for loading image assets
+- `public/flappyBird/` — game assets including images and audio files
+
+## Features
+
+- Full-window canvas rendering
+- Keyboard control for jump action
+- Dynamic pipe placement and adaptive gaps
+- Score display overlayed on the canvas
+- Responsive resizing when the browser window changes size
+- Native browser audio playback for game events
+
+## Getting started
+
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open the app in your browser:
 
-## Learn More
+```text
+http://localhost:3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `pnpm dev` — run the Next.js development server
+- `pnpm build` — build the production version
+- `pnpm start` — start the production server
+- `pnpm lint` — run ESLint checks
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Notes
 
-## Deploy on Vercel
+- The game is implemented as a client component with `'use client'` because it needs access to browser APIs like `window`, `canvas`, and audio playback.
+- Assets are loaded from `public/flappyBird/imagenes` and `public/flappyBird/audios`.
+- The component uses a simple axis-aligned bounding box (AABB) collision test for the bird and pipes.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Learn more
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Since this is a Next.js project, you can refer to the official documentation for additional concepts like routing, deployment, and app structure:
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Next.js App Router](https://nextjs.org/docs/app)
